@@ -1,0 +1,11 @@
+{
+  "name": "@labs/local-storage",
+  "version": "0.0.1",
+  "author": {
+    "name": "Nicolas Jardim",
+    "email": "nicolasemkis@gmail.com"
+  },
+  "license": "MIT",
+  "main": "",
+  "scripts": {}
+}
