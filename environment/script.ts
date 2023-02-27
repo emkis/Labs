@@ -105,7 +105,7 @@ function usedEnvVariables(dir: string): string[] {
       const envValue = match ? match[0] : null
       if (!envValue) return
 
-      const sanitizedValue = envValue.replace(',', '').replace(';', '')
+      const sanitizedValue = envValue.split(' ')[0].replace(',', '').replace(';', '')
       envValues.push(sanitizedValue)
     })
   })
