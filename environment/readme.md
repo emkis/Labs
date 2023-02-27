@@ -22,3 +22,8 @@ pnpm tsx script
   "check-envs": "pnpm tsx ./scripts/check-envs.ts --root ."
 },
 ```
+
+## To Do's
+- Fix RegEx to match end of the line correctly, currently I need to handle the ";", "," and spaces after
+
+- Ignore "node_modules" folder
