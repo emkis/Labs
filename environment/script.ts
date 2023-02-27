@@ -66,7 +66,7 @@ function getParsedArguments(input: string) {
 function safeRead<T extends () => ReturnType<T>>(readHandler: T) {
   try {
     return readHandler()
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === 'ENOENT') return null
     throw error
   }

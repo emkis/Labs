@@ -1,0 +1,8 @@
+{
+  "name": "playground",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "pnpm check-envs && echo 'starting your app ✨'",
+    "check-envs": "pnpm tsx ../script.ts --root ."
+  }
+}

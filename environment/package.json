@@ -5,6 +5,9 @@
     "name": "Nicolas Jardim",
     "email": "nicolasemkis@gmail.com"
   },
+  "scripts": {
+    "playground": "cd ./playground && pnpm start"
+  },
   "license": "MIT",
   "main": "script.ts",
   "devDependencies": {

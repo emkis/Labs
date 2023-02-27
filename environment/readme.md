@@ -12,7 +12,7 @@ This situation usually happens when:
 
 **Usage:**
 ```bash
-pnpm tsx script --root src
+pnpm tsx script
 ```
 
 **Example:**
