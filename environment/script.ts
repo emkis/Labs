@@ -75,40 +75,33 @@ function safeRead<T extends () => ReturnType<T>>(readHandler: T) {
 function usedEnvVariables(dir: string): string[] {
   const files = safeRead(() => fs.readdirSync(dir))
   if (!files) return []
-  let envValues: string[] = []
+  const envValues: string[] = []
 
-  files.forEach((file) => {
+  for (const file of files) {
     const filePath = path.join(dir, file)
     const stat = fs.statSync(filePath)
     const isDirectory = stat.isDirectory()
 
     if (isDirectory) {
-      envValues = [...envValues, ...usedEnvVariables(filePath)]
-      return
+      envValues.push(...usedEnvVariables(filePath))
     }
 
     const fileExtension = path.extname(filePath)
     const isValidExtension = extensionsToSearch.includes(fileExtension)
-    if (!isValidExtension) return
+    if (!isValidExtension) continue
 
     const fileContent = fs.readFileSync(filePath, 'utf8')
     const hasEnvValues = envPrefixes.some((string) => fileContent.includes(string))
-
-    if (!hasEnvValues) return
+    if (!hasEnvValues) continue
     const fileLines = fileContent.split('\n')
 
     fileLines.forEach((line) => {
-      const containsEnvValues = envPrefixes.some((string) => line.includes(string))
-      if (!containsEnvValues) return
-
-      const match = line.match(/[^.]+$/)
-      const envValue = match ? match[0] : null
-      if (!envValue) return
-
-      const sanitizedValue = envValue.split(' ')[0].replace(',', '').replace(';', '')
-      envValues.push(sanitizedValue)
+      const match = line.match(/(?:import\.meta\.env|process\.env)\.(\w+)/)
+      const envValue = match ? match[1] : null
+      envValue && envValues.push(envValue)
     })
-  })
+  }
+  
   return envValues
 }
 
