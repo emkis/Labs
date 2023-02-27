@@ -1,21 +1,21 @@
 # Environment
-This script throw an error when finds environment variables (env) that were not initialized on the `.env` files but are being used in the project.
+This script throw an error when finds environment variables that were not initialized on the `.env` files but are being used in the project.
 
 ## Motivation
-I want to fail fast, we have no time to waist.
+I like to fail fast, we have no time to waist.
 
-If a environment variable is not initialized and I'm using it in my project, most likely it's because we forgot to initialize it. If that's the case, the application will probably initialize but it may have some weird behavior you are not expecting, and then you will need to debug the application until understand what is going wrong. I simple want to prevent that possibility to ever happen.
+If a environment variable is not initialized and you're using it in your project, most likely it's because your forgot to initialize it. If that's the case, the application will probably initialize but it may have some weird behavior you are not expecting, and then you need to debug the application to understand what is going wrong. I simple want to prevent that possibility to ever happen.
 
 This situation usually happens when:
 - It's the first time people are setting up the project
-- When someone change a name of a variable on the `.env` file and forgot 
+- When you change a name of a variable on the `.env` file and don't update your code
 
-**Usage:**
+## Usage
 ```bash
-pnpm tsx script
+pnpm tsx script --root your-project-path
 ```
 
-**Example:**
+## In your `package.json`
 ```json
 "scripts": {
   "dev": "pnpm check-envs && start-your-app",
@@ -23,7 +23,17 @@ pnpm tsx script
 },
 ```
 
-## To Do's
-- Fix RegEx to match end of the line correctly, currently I need to handle the ";", "," and spaces after
+## Script options
+```
+-d, --directories <paths>  directories you want to check for env values (default: "src, app")
+-e, --extensions <types>   file extensions you support (default: ".ts, .tsx, .js, .jsx")
+-i, --ignore <envs>        env values to ignore (default: "DEV, PROD, NODE_ENV")
+-r, --root <path>          root path where you have your env files
+-h, --help                 display help for command
+```
 
-- Ignore "node_modules" folder
+## Important defaults
+By default the script will only look for `process.env.` and `import.meta.env.`.
+To get the initialized environment values, the script searches in the `.env`, `.env.local` and `.env.development` files.
+
+If you need different behaviors, just change the script.

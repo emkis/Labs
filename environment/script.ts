@@ -12,7 +12,7 @@ type ProgramOptions = {
 program
   .option('-d, --directories <paths>', 'directories you want to check for env values', 'src, app')
   .option('-e, --extensions <types>', 'file extensions you support', '.ts, .tsx, .js, .jsx')
-  .option('-i, --ignore <envs>', 'file extensions you support', 'DEV, PROD, NODE_ENV')
+  .option('-i, --ignore <envs>', 'env values to ignore', 'DEV, PROD, NODE_ENV')
   .requiredOption('-r, --root <path>', 'root path where you have your env files')
   .parse(process.argv)
 
@@ -26,6 +26,7 @@ const rootDirectory = programOptions.root.trim()
 const envFilesToSearch = [
   path.resolve(rootDirectory, '.env'),
   path.resolve(rootDirectory, '.env.local'),
+  path.resolve(rootDirectory, '.env.development'),
 ]
 
 findUninitializedEnvVars()
