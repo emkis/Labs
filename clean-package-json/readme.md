@@ -1,6 +1,6 @@
 <div align="center">
   <h1>Clean `package.json`</h1>
-  <p>This script removes all properties from your `package.json` you don't want to ship when publishing releases of your open source library.</p>
+  <p>This script removes all properties from your <code>package.json</code> you don't want to ship when publishing releases of your open source library.</p>
 
   <img src="./preview.gif" alt="">
   <br>
