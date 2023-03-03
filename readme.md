@@ -24,3 +24,8 @@ If a environment variable is not initialized and you're using it in your project
 This situation usually happens when:
 - It's the first time people are setting up the project
 - When you change a name of a variable on the `.env` file and don't update your code
+
+<br>
+
+## [Clean `package.json`](./clean-package-json/)
+A script that removes all properties from your <code>package.json</code> you don't want to ship when publishing releases of your open source library.
