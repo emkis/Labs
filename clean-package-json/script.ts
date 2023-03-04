@@ -5,6 +5,10 @@ import { format } from 'prettier'
 
 type PackageProperties = keyof typeof packageJson
 
+// add the path of the `package.json` you want to clear here
+const packagePath = resolve(__dirname, 'playground', 'package.json')
+
+// add the keys you want to remove
 const unwantedProperties: PackageProperties[] = [
   'keywords',
   'files',
@@ -12,16 +16,19 @@ const unwantedProperties: PackageProperties[] = [
   'devDependencies',
 ]
 
-deleteProperties(unwantedProperties)
-rewritePackageJson()
+init()
 
-function deleteProperties(keys: string[]) {
-  keys.forEach((key) => delete packageJson[key])
+function init() {
+  deleteProperties()
+  rewritePackageJson()
+}
+
+function deleteProperties() {
+  unwantedProperties.forEach((key) => delete packageJson[key])
 }
 
 async function rewritePackageJson() {
   try {
-    const packagePath = resolve(__dirname, '..', 'package.json')
     const content = JSON.stringify(packageJson)
     const prettifiedContent = format(content, { parser: 'json-stringify' })
     await writeFile(packagePath, prettifiedContent)
