@@ -1,0 +1,16 @@
+{
+  "name": "@labs/clean-package-json",
+  "version": "0.0.1",
+  "author": {
+    "name": "Nicolas Jardim",
+    "email": "nicolasemkis@gmail.com"
+  },
+  "license": "MIT",
+  "main": "script.ts",
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/prettier": "^2.7.2",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.4"
+  }
+}
