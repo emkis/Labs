@@ -32,7 +32,6 @@ interface Storage {
 }
 
 interface createStoragePersisterOptions {
-  name: string
   storage: Storage
   fallbackStorage?: Storage
   testMode?: boolean
@@ -65,31 +64,36 @@ function equal<T>(value: T): T {
 }
 
 export function createStoragePersister({
-  name,
   serializeKey = equal,
   serializeValue = JSON.stringify,
   deserializeValue = JSON.parse,
   throttleTime = 1000,
-  storage,
+  storage: primaryStorage,
   fallbackStorage,
   logger,
   testMode = false,
 }: createStoragePersisterOptions): StoragePersister {
-  function createKey(originalKey: string) {
-    return serializeKey(`${name}/${originalKey}`)
+  let isFallbackStorageEnabled = false
+
+  function getStorage() {
+    if (!fallbackStorage) return primaryStorage
+    return isFallbackStorageEnabled ? fallbackStorage : primaryStorage
   }
 
   function persist(serializedKey: string, serializedValue: string): void {
     try {
+      const storage = getStorage()
       storage.setItem(serializedKey, serializedValue)
     } catch {
       if (!fallbackStorage) return
+      isFallbackStorageEnabled = true
       fallbackStorage.setItem(serializedKey, serializedValue)
     }
   }
 
   function getItem<T>(key: string, { parse }: GetItemOptions<T> = {}): T | null {
-    const serializedKey = createKey(key)
+    const storage = getStorage()
+    const serializedKey = serializeKey(key)
     const rawData = storage.getItem(serializedKey)
     if (!rawData) return null
     const parsedData = deserializeValue(rawData)
@@ -97,14 +101,16 @@ export function createStoragePersister({
   }
 
   function setItem<T>(key: string, value: T): () => void {
-    const serializedKey = createKey(key)
+    const storage = getStorage()
+    const serializedKey = serializeKey(key)
     const serializedValue = serializeValue(value)
     persist(serializedKey, serializedValue)
     return throttle(() => storage.removeItem(serializedKey), throttleTime)
   }
 
   function removeItem(key: string): void {
-    const serializedKey = createKey(key)
+    const storage = getStorage()
+    const serializedKey = serializeKey(key)
     storage.removeItem(serializedKey)
   }
 
