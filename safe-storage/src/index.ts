@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { throttle } from './throttle';
 
 // Refs
 // https://github.com/localForage/localForage
@@ -38,8 +38,7 @@ interface createStoragePersisterOptions {
   testMode?: boolean
   throttleTime?: number
   serializeKey?: (key: string) => string;
-  // serializeValue?: (value: unknown) => string;
-  serializeValue?: typeof JSON.stringify;
+  serializeValue?: (value: unknown) => string;
   deserializeValue?: (value: string) => any;
   logger?: () => void
 }
@@ -52,102 +51,66 @@ interface createStoragePersisterOptions {
 // https://www.npmjs.com/package/imurmurhash
 
 interface GetItemOptions<T> {
-  validate?: (data: unknown) => T
+  parse?: (data: unknown) => T
 }
 
 interface StoragePersister {
-  // getItem: (key: string) => string | null
-  getItem: <T>(key: string, options?: GetItemOptions<T>) => T
-  
-  setItem: (key: string, value: string) => () => void
-  
+  getItem: <T>(key: string, options?: GetItemOptions<T>) => T | null
+  setItem: <T>(key: string, value: T) => () => void
   removeItem: (key: string) => void
 }
 
-const equal = <T>(value: T) => value
+function equal<T>(value: T): T {
+  return value
+}
 
-function createStoragePersister({
+export function createStoragePersister({
+  name,
+  serializeKey = equal,
   serializeValue = JSON.stringify,
   deserializeValue = JSON.parse,
-  serializeKey = equal,
   throttleTime = 1000,
   storage,
+  fallbackStorage,
+  logger,
+  testMode = false,
 }: createStoragePersisterOptions): StoragePersister {
-
-  function throttleMutation<Func extends () => void>(reader: Func) {
-    throttleTime
-    reader()
+  function createKey(originalKey: string) {
+    return serializeKey(`${name}/${originalKey}`)
   }
 
-  function getItem<T>(key: string, options: GetItemOptions<T> = {}): T | null {
-    const { validate } = options
+  function persist(serializedKey: string, serializedValue: string): void {
+    try {
+      storage.setItem(serializedKey, serializedValue)
+    } catch {
+      if (!fallbackStorage) return
+      fallbackStorage.setItem(serializedKey, serializedValue)
+    }
+  }
 
-    const safeKey = serializeKey(key)
-    const rawData = storage.getItem(safeKey)
+  function getItem<T>(key: string, { parse }: GetItemOptions<T> = {}): T | null {
+    const serializedKey = createKey(key)
+    const rawData = storage.getItem(serializedKey)
     if (!rawData) return null
     const parsedData = deserializeValue(rawData)
-    return validate ? validate(parsedData) : parsedData
+    return parse ? parse(parsedData) : parsedData
   }
 
-  function setItem(key: string, value: string): () => void {
-    const safeKey = serializeKey(key)
+  function setItem<T>(key: string, value: T): () => void {
+    const serializedKey = createKey(key)
     const serializedValue = serializeValue(value)
-    storage.setItem(safeKey, serializedValue)
-    return () => storage.removeItem(safeKey)
+    persist(serializedKey, serializedValue)
+    return throttle(() => storage.removeItem(serializedKey), throttleTime)
   }
 
   function removeItem(key: string): void {
-    const safeKey = serializeKey(key)
-    storage.removeItem(safeKey)
+    const serializedKey = createKey(key)
+    storage.removeItem(serializedKey)
   }
 
   return {
     getItem,
-    setItem,
-    removeItem,
+    setItem: throttle(setItem, throttleTime),
+    removeItem: throttle(removeItem, throttleTime),
   } as StoragePersister
 }
-
-const localStoragePersister = createStoragePersister({
-  name: 'my-app',
-  storage: localStorage,
-  serializeKey: equal,
-  serializeValue: JSON.stringify,
-  deserializeValue: JSON.parse,
-  testMode: true,
-})
-
-const sessionStoragePersister = createStoragePersister({
-  name: 'my-app',
-  storage: sessionStorage,
-  testMode: true,
-})
-
-
-
-type Theme = { id: string }
-const transformTheme = (): Theme => ({ id: 'dark' })
-
-// Setting items
-localStoragePersister.setItem('theme', 'dracula')
-
-const removeItem = localStoragePersister.setItem('theme', 'dracula')
-removeItem()
-
-
-// Getting
-const unsafeTheme = localStoragePersister.getItem('theme')
-const safeTheme = localStoragePersister.getItem('theme', { validate: transformTheme })
-
-
-const Payment = z.object({
-  id: z.string(),
-  method: z.string(),
-});
-
-const one = localStoragePersister.getItem('one')
-const two = localStoragePersister.getItem('two', { validate: transformTheme })
-const three = localStoragePersister.getItem('three', { validate: Payment.parse })
-const four = localStoragePersister.getItem('four', { validate: Payment.safeParse })
-
-four.success ? four.data.method : null
