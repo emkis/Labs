@@ -104,8 +104,10 @@ export function createStoragePersister({
     const storage = getStorage()
     const serializedKey = serializeKey(key)
     const serializedValue = serializeValue(value)
-    persist(serializedKey, serializedValue)
-    return throttle(() => storage.removeItem(serializedKey), throttleTime)
+    const throttledPersist = throttle(persist, throttleTime)
+    const throttledRemove = throttle(storage.removeItem, throttleTime)
+    throttledPersist(serializedKey, serializedValue)
+    return () => throttledRemove(serializedKey)
   }
 
   function removeItem(key: string): void {
@@ -116,7 +118,7 @@ export function createStoragePersister({
 
   return {
     getItem,
-    setItem: throttle(setItem, throttleTime),
+    setItem,
     removeItem: throttle(removeItem, throttleTime),
-  } as StoragePersister
+  }
 }
