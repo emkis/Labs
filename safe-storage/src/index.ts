@@ -84,8 +84,8 @@ export function createStoragePersister({
     try {
       const storage = getStorage()
       storage.setItem(serializedKey, serializedValue)
-    } catch {
-      if (!fallbackStorage) return
+    } catch (error) {
+      if (!fallbackStorage) throw error
       isFallbackStorageEnabled = true
       fallbackStorage.setItem(serializedKey, serializedValue)
     }
