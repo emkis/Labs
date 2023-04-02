@@ -55,7 +55,7 @@ interface GetItemOptions<T> {
 
 interface StoragePersister {
   getItem: <T>(key: string, options?: GetItemOptions<T>) => T | null
-  setItem: <T>(key: string, value: T) => () => void
+  setItem: <T>(key: string, value: T) => void
   removeItem: (key: string) => void
 }
 
@@ -100,14 +100,10 @@ export function createStoragePersister({
     return parse ? parse(deserializedData) : deserializedData
   }
 
-  function setItem<T>(key: string, value: T): () => void {
-    const storage = getStorage()
+  function setItem<T>(key: string, value: T): void {
     const serializedKey = serializeKey(key)
     const serializedValue = serializeValue(value)
-    const throttledPersist = throttle(persist, throttleTime)
-    const throttledRemove = throttle(storage.removeItem, throttleTime)
-    throttledPersist(serializedKey, serializedValue)
-    return () => throttledRemove(serializedKey)
+    persist(serializedKey, serializedValue)
   }
 
   function removeItem(key: string): void {
@@ -118,7 +114,7 @@ export function createStoragePersister({
 
   return {
     getItem,
-    setItem,
+    setItem : throttle(setItem, throttleTime),
     removeItem: throttle(removeItem, throttleTime),
   }
 }
