@@ -96,8 +96,8 @@ export function createStoragePersister({
     const serializedKey = serializeKey(key)
     const rawData = storage.getItem(serializedKey)
     if (!rawData) return null
-    const parsedData = deserializeValue(rawData)
-    return parse ? parse(parsedData) : parsedData
+    const deserializedData = deserializeValue(rawData)
+    return parse ? parse(deserializedData) : deserializedData
   }
 
   function setItem<T>(key: string, value: T): () => void {
