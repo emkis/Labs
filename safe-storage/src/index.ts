@@ -31,7 +31,7 @@ interface Storage {
   removeItem: (key: string) => void
 }
 
-interface createStoragePersisterOptions {
+interface CreateStoragePersisterOptions {
   storage: Storage
   fallbackStorage?: Storage
   testMode?: boolean
@@ -72,7 +72,7 @@ export function createStoragePersister({
   fallbackStorage,
   logger,
   testMode = false,
-}: createStoragePersisterOptions): StoragePersister {
+}: CreateStoragePersisterOptions): StoragePersister {
   let isFallbackStorageEnabled = false
 
   function getStorage() {
