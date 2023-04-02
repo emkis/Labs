@@ -1,6 +1,6 @@
 export function throttle<TArgs extends unknown[]>(
   func: (...args: TArgs) => unknown,
-  wait = 100,
+  wait: number,
 ) {
   let timer: ReturnType<typeof setTimeout> | null = null
   let params: TArgs
