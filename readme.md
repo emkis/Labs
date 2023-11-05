@@ -1,5 +1,5 @@
 # Labs 🪴
-Just a place to centralise draft ideas for libraries or abstractions of something I find interesting and may use later on (I probably won't).
+Just a place to centralise ideas for libraries or abstractions of features I find interesting and may use later on (I probably won't). If you are interested in knowing the motivation for an idea, click on the links to read more about it.
 
 <br>
 
