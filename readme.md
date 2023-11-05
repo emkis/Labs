@@ -1,5 +1,5 @@
 # Labs 🪴
-Just a place to centralise draft ideas for libraries or abstractions of something I find interesting and may use later on (I probably don't).
+Just a place to centralise draft ideas for libraries or abstractions of something I find interesting and may use later on (I probably won't).
 
 <br>
 
@@ -12,4 +12,4 @@ This script throws an error when finds environment variables that were not initi
 
 
 ## [Clean `package.json`](./clean-package-json/)
-A script that removes all properties from your <code>package.json</code> you don't want to ship when publishing releases of your open source library.
+A script that removes all properties from your <code>package.json</code> you don't want to ship when publishing releases of your open-source library.
