@@ -5,12 +5,10 @@ const localStoragePersister = createStoragePersister({
   storage: localStorage,
   serializeValue: JSON.stringify,
   deserializeValue: JSON.parse,
-  testMode: true,
 })
 
 const sessionStoragePersister = createStoragePersister({
   storage: sessionStorage,
-  testMode: true,
 })
 
 
@@ -24,9 +22,6 @@ const Payment = z.object({
 
 // Setting items
 localStoragePersister.setItem('theme', 'dracula')
-
-const removeItem = localStoragePersister.setItem('theme', 'dracula')
-removeItem()
 
 
 // Getting
