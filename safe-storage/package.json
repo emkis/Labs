@@ -8,6 +8,7 @@
   "license": "MIT",
   "main": "index.ts",
   "devDependencies": {
-    "typescript": "^4.9.5"
+    "typescript": "^5.3.3",
+    "zod": "^3.22.4"
   }
 }
