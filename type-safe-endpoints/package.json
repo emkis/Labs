@@ -1,0 +1,17 @@
+{
+  "name": "@labs/type-safe-endpoints",
+  "version": "0.0.1",
+  "type": "module",
+  "author": {
+    "name": "Nicolas Jardim",
+    "email": "nicolasemkis@gmail.com"
+  },
+  "scripts": {
+    "start": "tsx playground.ts"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "latest"
+  }
+}

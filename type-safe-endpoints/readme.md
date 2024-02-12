@@ -1,0 +1,3 @@
+# Type-safe endpoints
+
+More description is coming...
