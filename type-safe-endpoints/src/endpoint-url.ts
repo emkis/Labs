@@ -1,18 +1,12 @@
-type Endpoints = {
-  "/payments": undefined;
-  "/payments/{id}": { id: string };
-  "/payments/{id}/transaction/{tr_id}": { id: string; tr_id: string };
-  "/orders": undefined;
-  "/orders/{id}": { id: string };
-};
+import type { Endpoints } from "./endpoints";
 
-/** Union type of all endpoint urls defined in the `Endpoints` type. */
+/** Union type of all endpoint urls defined in the {@link Endpoints} type. */
 type Endpoint = keyof Endpoints;
 
-/** Returns the options type of a specific endpoint url. */
+/** Returns the options of a specific endpoint url. */
 type EndpointOptions<T extends Endpoint> = Endpoints[T];
 
-/** Returns the parsed endpoint url with the given options. */
+/** Returns the parsed endpoint url with given options. */
 export function endpointUrl<T extends Endpoint>(
   url: T,
   options?: EndpointOptions<T>

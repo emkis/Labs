@@ -1,4 +1,4 @@
-import { endpointUrl } from "./endpoints";
+import { endpointUrl } from "./src/endpoint-url";
 
 const payments = endpointUrl("/payments");
 
