@@ -1,3 +1,7 @@
+/**
+ * Example of all endpoints available in this fake API.
+ * This can be a merged type of multiple other APIs or just a single API.
+ */
 export type Endpoints = {
   "/payments": undefined;
   "/payments/{id}": { id: string };
