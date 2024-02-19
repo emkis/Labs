@@ -7,7 +7,8 @@
     "email": "nicolasemkis@gmail.com"
   },
   "scripts": {
-    "start": "tsx playground.ts"
+    "start": "tsx playground.ts",
+    "test": "tsx --test **/*.test.ts"
   },
   "license": "MIT",
   "devDependencies": {
