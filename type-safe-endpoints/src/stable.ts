@@ -32,8 +32,10 @@ export function endpointUrl<T extends Endpoint>(
 // Playground
 // ----------
 
-endpointUrl("/orders"); // this shouldn't require 2 arg ✅
+endpointUrl("/orders"); // shouldn't require 2 arg ✅
 
-endpointUrl("/orders/{id}"); // this should require the 2 arg ❌
+endpointUrl("/orders/{id}"); // should require the 2 arg ❌
 
-endpointUrl("/orders/{id}", { id: "49fh" }); // this should infer only id ✅
+endpointUrl("/orders/{id}", { id: "49fh" }); // should infer only id ✅
+
+endpointUrl("/payments/{id}/transaction/{tr_id}", { foo: "bar" }); // should error as foo doesn't exist ✅

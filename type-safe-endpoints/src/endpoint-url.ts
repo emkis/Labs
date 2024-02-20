@@ -37,10 +37,14 @@ export function endpointUrl<T extends EndpointShape>(
 // Playground
 // ----------
 
-endpointUrl("/user/{name}", { name: "John" }); // This should work by default with default types ✅
+endpointUrl("/users"); // Should work by default with no narrow types as generic ✅
+endpointUrl("/users", undefined); // Should work by default with no narrow types as generic ✅
+endpointUrl("/user/{name}", { name: "John" }); // Should work by default with no narrow types as generic ✅
 
-endpointUrl<MyEndpoints>("/orders"); // This should work by default with default types ✅
+endpointUrl<MyEndpoints>("/orders"); // Should work with narrow generic type and no 2nd arg ✅
 
-endpointUrl<MyEndpoints>("/orders/{id}"); // This should require the 2 arg ❌
+endpointUrl<MyEndpoints>("/orders/{id}"); // Should require the 2 arg ❌
 
-endpointUrl<MyEndpoints>("/foo/{bar}/fizz/{buzz}", {}); // This one should only infer its own options, not all of them ❌
+endpointUrl<MyEndpoints>("/foo/{bar}/fizz/{buzz}", {}); // Should only infer its own options, not all of them ❌
+
+endpointUrl<MyEndpoints>("/foo/{bar}/fizz/{buzz}", { id: "3" }); // Should not allow `id` ❌
