@@ -2,6 +2,9 @@
   "include": ["."],
   "compilerOptions": {
     "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
