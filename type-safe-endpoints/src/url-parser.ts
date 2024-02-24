@@ -1,13 +1,13 @@
 export function urlParser(
   url: string,
-  urlOptions: Record<string, string> | undefined
+  urlValues: Record<string, string> | undefined
 ): string {
-  if (!urlOptions) return url;
+  if (!urlValues) return url;
 
   let parsedUrl: string = url;
 
-  for (const key in urlOptions) {
-    const optionValue = urlOptions[key]!;
+  for (const key in urlValues) {
+    const optionValue = urlValues[key]!;
     parsedUrl = parsedUrl.replaceAll(`{${key}}`, optionValue);
   }
 
