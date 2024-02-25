@@ -8,6 +8,7 @@ More description is coming...
 - [x] Add unit tests for `url-parser`.
 - [x] Add development version of `url-parser`.
 - [x] Add unit tests for `url-parser.development`.
+- [x] Add dynamic export for `url-parser`.
 
 - [x] Add `endpointUrlParser` function.
 - [x] Add unit tests for `endpointUrlParser`.
