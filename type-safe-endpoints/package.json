@@ -12,6 +12,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^20.11.20",
     "tsx": "^4.7.1",
     "typescript": "latest"
   }
