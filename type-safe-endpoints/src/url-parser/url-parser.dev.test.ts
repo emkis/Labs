@@ -1,6 +1,58 @@
 import { it } from "node:test";
 import assert from "node:assert/strict";
-import { urlParser } from "./url-parser";
+import { urlParser, URLParserError } from "./url-parser.dev";
+
+it("should throw an error if url requires values but no values were provided", () => {
+  assert.throws(() => urlParser("/payments/{id}", undefined), {
+    name: URLParserError.name,
+    message: `The values for "/payments/{id}" URL are required.`,
+  });
+
+  assert.throws(() => urlParser("/orders/{id}", {}), {
+    name: URLParserError.name,
+    message: `The values for "/orders/{id}" URL are required.`,
+  });
+
+  assert.throws(
+    () => urlParser("/users/{user_name}/activate/{product_id}", {}),
+    {
+      name: URLParserError.name,
+      message: `The values for "/users/{user_name}/activate/{product_id}" URL are required.`,
+    }
+  );
+});
+
+it("should throw an error when values are missing or partially provided", () => {
+  assert.throws(() => urlParser("/orders/{id}", { fizz: "buzz", foo: "bar" }), {
+    name: URLParserError.name,
+    message: `The values for "/orders/{id}" URL are required, missing keys: id`,
+  });
+
+  assert.throws(
+    () => urlParser("/account/{id}/enable/user/{id}", { idx: "abc" }),
+    {
+      name: URLParserError.name,
+      message: `The values for "/account/{id}/enable/user/{id}" URL are required, missing keys: id`,
+    }
+  );
+
+  assert.throws(
+    () => urlParser("/products/{category_name}/{id}", { id: "jip-893" }),
+    {
+      name: URLParserError.name,
+      message: `The values for "/products/{category_name}/{id}" URL are required, missing keys: category_name`,
+    }
+  );
+
+  assert.throws(
+    () =>
+      urlParser("/user/{user_name}/settings/{section_name}", { lorem: "ipsum" }),
+    {
+      name: URLParserError.name,
+      message: `The values for "/user/{user_name}/settings/{section_name}" URL are required, missing keys: user_name, section_name`,
+    }
+  );
+});
 
 it('should return the same url when no values are provided', () => {
   assert.equal(urlParser("/orders", undefined), "/orders");
@@ -27,4 +79,3 @@ it('should replace the url options with the provided values', () => {
   assert.equal(urlParser("/account/{id}/enable/user/{id}", { id: "p5e" }), "/account/p5e/enable/user/p5e");
   assert.equal(urlParser("/items/{itemId}/details/{itemId}/edit/{itemId}", { itemId: "ui9" }), "/items/ui9/details/ui9/edit/ui9");
 });
-
