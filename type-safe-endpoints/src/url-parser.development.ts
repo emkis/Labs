@@ -6,9 +6,7 @@ export function urlParser(
   if (!requiredUrlValues) return url;
 
   if (!urlValues || Object.keys(urlValues).length === 0) {
-    throw new Error(
-      `${urlParser.name}: The values for "${url}" URL are required.`
-    );
+    throw new URLParserError(`The values for "${url}" URL are required.`);
   }
 
   let parsedUrl: string = url;
@@ -27,8 +25,8 @@ export function urlParser(
     const missingKeys = getUrlValues(parsedUrl)!;
     const formattedMissingKeys = missingKeys.join(", ");
 
-    throw new Error(
-      `${urlParser.name}: The values for "${url}" URL are required. Missing keys are: ${formattedMissingKeys}.`
+    throw new URLParserError(
+      `The values for "${url}" URL are required, missing keys: ${formattedMissingKeys}.`
     );
   }
 
@@ -50,4 +48,11 @@ function getUrlValues(url: string): string[] | undefined {
 
   const uniqueMatches = Array.from(new Set(matches));
   return uniqueMatches;
+}
+
+class URLParserError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "URLParserError";
+  }
 }
