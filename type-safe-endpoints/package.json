@@ -10,7 +10,7 @@
     "start": "tsx playground.ts",
     "start:parser": "NODE_ENV=production pnpm tsx url-parser-playground.ts",
     "start:parser:dev": "NODE_ENV=development pnpm tsx url-parser-playground.ts",
-    "test": "tsx --test **/*.test.ts"
+    "test": "tsx --test src/**/*.test.ts"
   },
   "license": "MIT",
   "devDependencies": {
