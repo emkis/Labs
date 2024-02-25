@@ -26,7 +26,7 @@ export function urlParser(
     const formattedMissingKeys = missingKeys.join(", ");
 
     throw new URLParserError(
-      `The values for "${url}" URL are required, missing keys: ${formattedMissingKeys}.`
+      `The values for "${url}" URL are required, missing keys: ${formattedMissingKeys}`
     );
   }
 
@@ -46,11 +46,12 @@ function getUrlValues(url: string): string[] | undefined {
   const matches = url.match(/{(.*?)}/g);
   if (!matches) return;
 
-  const uniqueMatches = Array.from(new Set(matches));
+  const matchesWithoutBrackets = matches.map((match) => match.slice(1, -1));
+  const uniqueMatches = Array.from(new Set(matchesWithoutBrackets));
   return uniqueMatches;
 }
 
-class URLParserError extends Error {
+export class URLParserError extends Error {
   constructor(message: string) {
     super(message);
     this.name = "URLParserError";
