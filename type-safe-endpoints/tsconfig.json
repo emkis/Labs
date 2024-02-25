@@ -4,6 +4,7 @@
     "lib": ["ESNext"],
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
