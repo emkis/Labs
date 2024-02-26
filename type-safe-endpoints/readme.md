@@ -12,7 +12,7 @@ More description is coming...
 
 - [x] Add `endpointUrlParser` function.
 - [x] Add unit tests for `endpointUrlParser`.
-- [ ] Add type tests for `endpointUrlParser`.
+- [x] Add type tests for `endpointUrlParser`.
 
 - [ ] Add a version of `endpointUrlParser` that doesn't require typing the url values manually as a test.
 - [ ] Add real readme to this repository.
