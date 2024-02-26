@@ -1,9 +1,9 @@
 import {
   createEndpointUrlParser,
   type CreateEndpointObject,
-} from "./src/endpoint-url";
+} from "../src/endpoint-url";
 
-declare type PaymentEndpoints = CreateEndpointObject<{
+type PaymentEndpoints = CreateEndpointObject<{
   "/payments": undefined;
   "/payments/{id}": { id: string };
   "/payments/{p_id}/transaction/{tr_id}": { p_id: string; tr_id: string };

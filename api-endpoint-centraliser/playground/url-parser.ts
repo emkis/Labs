@@ -1,4 +1,4 @@
-import { urlParser } from "./src/url-parser";
+import { urlParser } from "../src/url-parser";
 
 /**
  * When running this in development, it will trigger errors, but not in production.

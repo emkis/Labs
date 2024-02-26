@@ -7,9 +7,9 @@
     "email": "nicolasemkis@gmail.com"
   },
   "scripts": {
-    "start": "tsx playground.ts",
-    "start:parser": "NODE_ENV=production pnpm tsx url-parser-playground.ts",
-    "start:parser:dev": "NODE_ENV=development pnpm tsx url-parser-playground.ts",
+    "start": "tsx ./playground/endpoint-parser.ts",
+    "start:parser": "NODE_ENV=production pnpm tsx ./playground/url-parser.ts",
+    "start:parser:dev": "NODE_ENV=development pnpm tsx ./playground/url-parser.ts",
     "test": "tsx --test src/**/*.test.ts",
     "test:types": "vitest run --typecheck.only"
   },
