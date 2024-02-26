@@ -1,5 +1,7 @@
 # Labs 🪴
-Just a place to centralise ideas for libraries or abstractions of features I find interesting and may use later on (I probably won't). If you are interested in knowing the motivation for an idea, click on the links to read more about it.
+A repo to centralise ideas I have for libraries or cool abstractions I think would be helpful in some use cases, and may want to use later on in a project.
+
+> Every idea has its folder, inside each folder, there is more information about why I think the idea is useful and what motivated me to think about building them.
 
 <br>
 
