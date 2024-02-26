@@ -14,5 +14,10 @@ More description is coming...
 - [x] Add unit tests for `endpointUrlParser`.
 - [x] Add type tests for `endpointUrlParser`.
 
+- [ ] Think again about the name of the functions.
+- [ ] Add comments to the playground files to help understand what to expect of each playground.
+
+## Nice to haves
+
+- [ ] Add dynamic types for arguments of `endpointUrlParser`, to avoid allowing `undefined` when url values are required.
 - [ ] Add a version of `endpointUrlParser` that doesn't require typing the url values manually as a test.
-- [ ] Add real readme to this repository.
