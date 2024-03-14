@@ -7,9 +7,9 @@ export type CreateEndpointObject<T extends EndpointObject> = T;
 
 export function createEndpointUrlParser<T extends EndpointObject>() {
   return function endpointUrlParser<Url extends keyof T>(
-    url: Url,
-    values?: T[Url]
+    ...args: T[Url] extends undefined ? [url: Url] : [url: Url, values: T[Url]]
   ): string {
+    const [url, values] = args;
     return urlParser(url as string, values);
   };
 }
