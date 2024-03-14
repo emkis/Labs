@@ -19,5 +19,4 @@ More description is coming...
 
 ## Nice to haves
 
-- [ ] Add dynamic types for arguments of `endpointUrlParser`, to avoid allowing `undefined` when url values are required.
-- [ ] Add a version of `endpointUrlParser` that doesn't require typing the url values manually as a test.
+- [x] Add dynamic types for arguments of `endpointUrlParser`, to avoid allowing `undefined` when url values are required.
