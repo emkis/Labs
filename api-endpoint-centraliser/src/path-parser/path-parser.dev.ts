@@ -12,7 +12,7 @@ export function pathParser(
   if (!requiredPathParams) return path;
 
   if (!pathValues || Object.keys(pathValues).length === 0) {
-    throw new PathParserError(`The values for "${path}" URL are required.`);
+    throw new PathParserError(`The values for "${path}" path are required.`);
   }
 
   let parsedUrl: string = path;

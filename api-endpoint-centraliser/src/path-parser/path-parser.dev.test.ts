@@ -5,19 +5,19 @@ import { pathParser, PathParserError } from "./path-parser.dev";
 it("should throw an error if path requires values but no values were provided", () => {
   assert.throws(() => pathParser("/payments/{id}", undefined), {
     name: PathParserError.name,
-    message: `The values for "/payments/{id}" URL are required.`,
+    message: `The values for "/payments/{id}" path are required.`,
   });
 
   assert.throws(() => pathParser("/orders/{id}", {}), {
     name: PathParserError.name,
-    message: `The values for "/orders/{id}" URL are required.`,
+    message: `The values for "/orders/{id}" path are required.`,
   });
 
   assert.throws(
     () => pathParser("/users/{user_name}/activate/{product_id}", {}),
     {
       name: PathParserError.name,
-      message: `The values for "/users/{user_name}/activate/{product_id}" URL are required.`,
+      message: `The values for "/users/{user_name}/activate/{product_id}" path are required.`,
     }
   );
 });
@@ -27,7 +27,7 @@ it("should throw an error when values are missing or partially provided", () => 
     () => pathParser("/orders/{id}", { fizz: "buzz", foo: "bar" }),
     {
       name: PathParserError.name,
-      message: `The values for "/orders/{id}" URL are required, missing keys: id`,
+      message: `The values for "/orders/{id}" path are required, missing keys: id`,
     }
   );
 
@@ -35,7 +35,7 @@ it("should throw an error when values are missing or partially provided", () => 
     () => pathParser("/account/{id}/enable/user/{id}", { idx: "abc" }),
     {
       name: PathParserError.name,
-      message: `The values for "/account/{id}/enable/user/{id}" URL are required, missing keys: id`,
+      message: `The values for "/account/{id}/enable/user/{id}" path are required, missing keys: id`,
     }
   );
 
@@ -43,7 +43,7 @@ it("should throw an error when values are missing or partially provided", () => 
     () => pathParser("/products/{category_name}/{id}", { id: "jip-893" }),
     {
       name: PathParserError.name,
-      message: `The values for "/products/{category_name}/{id}" URL are required, missing keys: category_name`,
+      message: `The values for "/products/{category_name}/{id}" path are required, missing keys: category_name`,
     }
   );
 
@@ -54,7 +54,7 @@ it("should throw an error when values are missing or partially provided", () => 
       }),
     {
       name: PathParserError.name,
-      message: `The values for "/user/{user_name}/settings/{section_name}" URL are required, missing keys: user_name, section_name`,
+      message: `The values for "/user/{user_name}/settings/{section_name}" path are required, missing keys: user_name, section_name`,
     }
   );
 });
