@@ -1,7 +1,7 @@
 import { it, assertType } from "vitest";
-import { createEndpointUrlParser, type CreateEndpointObject } from "./endpoint-url";
+import { defineEndpoints, type DefineEndpoints } from "./endpoint-url";
 
-type Endpoints = CreateEndpointObject<{
+type Endpoints = DefineEndpoints<{
   "/payments": undefined;
   "/payments/{id}": { id: string };
   "/payments/{p_id}/transaction/{tr_id}": { p_id: string; tr_id: string };
@@ -9,34 +9,34 @@ type Endpoints = CreateEndpointObject<{
   "/users/{user_name}": { user_name: string };
 }>;
 
-const endpointUrl = createEndpointUrlParser<Endpoints>();
+const parseEndpoint = defineEndpoints<Endpoints>();
 
 it("should always return a string type", () => {
-  assertType<string>(endpointUrl("/users"));
-  assertType<string>(endpointUrl("/payments/{id}", { id: "3" }));
+  assertType<string>(parseEndpoint("/users"));
+  assertType<string>(parseEndpoint("/payments/{id}", { id: "3" }));
 });
 
 it("should not error when correct options of endpoint are provided", () => {
-  endpointUrl("/payments");
-  endpointUrl("/payments/{id}", { id: "3" });
-  endpointUrl("/users");
-  endpointUrl("/users/{user_name}", { user_name: "emkis" });
-  endpointUrl("/payments/{p_id}/transaction/{tr_id}", { p_id: "hjs", tr_id: "92z" });
+  parseEndpoint("/payments");
+  parseEndpoint("/payments/{id}", { id: "3" });
+  parseEndpoint("/users");
+  parseEndpoint("/users/{user_name}", { user_name: "emkis" });
+  parseEndpoint("/payments/{p_id}/transaction/{tr_id}", { p_id: "hjs", tr_id: "92z" });
 });
 
 it("should error when options of endpoint are invalid, missing or partially provided", () => {
   // @ts-expect-error
-  endpointUrl("/payments", undefined);
+  parseEndpoint("/payments", undefined);
   // @ts-expect-error
-  endpointUrl("/payments", {});
+  parseEndpoint("/payments", {});
   // @ts-expect-error
-  endpointUrl("/payments", { name: 'nicolas' });
+  parseEndpoint("/payments", { name: "nicolas" });
   // @ts-expect-error
-  endpointUrl("/payments/{id}", {});
+  parseEndpoint("/payments/{id}", {});
   // @ts-expect-error
-  endpointUrl("/payments/{id}", { idx: '1' });
+  parseEndpoint("/payments/{id}", { idx: "1" });
   // @ts-expect-error
-  endpointUrl("/users/{user_name}", { user_name: 'emkis', extra_value: '0' });
+  parseEndpoint("/users/{user_name}", { user_name: "emkis", extra_value: "0" });
   // @ts-expect-error
-  endpointUrl("/payments/{p_id}/transaction/{tr_id}", { p_id: "hjs" });
+  parseEndpoint("/payments/{p_id}/transaction/{tr_id}", { p_id: "hjs" });
 });

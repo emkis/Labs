@@ -1,8 +1,8 @@
 import { it } from "node:test";
 import assert from "node:assert/strict";
-import { createEndpointUrlParser, type CreateEndpointObject } from "./endpoint-url";
+import { defineEndpoints, type DefineEndpoints } from "./endpoint-url";
 
-type Endpoints = CreateEndpointObject<{
+type Endpoints = DefineEndpoints<{
   "/payments": undefined;
   "/payments/{id}": {
     id: string;
@@ -25,19 +25,34 @@ type Endpoints = CreateEndpointObject<{
 }>;
 
 it("should return the parsed endpoint url", () => {
-  const endpointUrl = createEndpointUrlParser<Endpoints>();
-  assert.equal(endpointUrl("/payments"), "/payments");
-  assert.equal(endpointUrl("/payments/{id}", { id: "49fh" }), "/payments/49fh");
-  assert.equal(endpointUrl("/payments/{id}/transaction/{tr_id}", { id: "ifh-4fd", tr_id: "jh7-31d" }),
+  const parseEndpoint = defineEndpoints<Endpoints>();
+  assert.equal(parseEndpoint("/payments"), "/payments");
+  assert.equal(parseEndpoint("/payments/{id}", { id: "49fh" }), "/payments/49fh");
+  assert.equal(
+    parseEndpoint("/payments/{id}/transaction/{tr_id}", {
+      id: "ifh-4fd",
+      tr_id: "jh7-31d",
+    }),
     "/payments/ifh-4fd/transaction/jh7-31d"
   );
-  assert.equal(endpointUrl("https://forum.example.io/threads/{thread_id}", { thread_id: "jof-3fa" }),
+  assert.equal(
+    parseEndpoint("https://forum.example.io/threads/{thread_id}", {
+      thread_id: "jof-3fa",
+    }),
     "https://forum.example.io/threads/jof-3fa"
   );
-  assert.equal(endpointUrl("https://example.com/users/{user_id}/posts/{post_id}", { user_id: "usr_1", post_id: "pst_1" }),
+  assert.equal(
+    parseEndpoint("https://example.com/users/{user_id}/posts/{post_id}", {
+      user_id: "usr_1",
+      post_id: "pst_1",
+    }),
     "https://example.com/users/usr_1/posts/pst_1"
   );
-  assert.equal(endpointUrl("http://www.example.org/categories/{category_id}/products/{product_id}/reviews", { category_id: "cat_1", product_id: "prd_1" }),
+  assert.equal(
+    parseEndpoint(
+      "http://www.example.org/categories/{category_id}/products/{product_id}/reviews",
+      { category_id: "cat_1", product_id: "prd_1" }
+    ),
     "http://www.example.org/categories/cat_1/products/prd_1/reviews"
   );
 });
