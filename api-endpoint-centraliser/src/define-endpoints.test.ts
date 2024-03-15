@@ -1,6 +1,6 @@
 import { it } from "node:test";
 import assert from "node:assert/strict";
-import { defineEndpoints, type DefineEndpoints } from "./endpoint-url";
+import { defineEndpoints, type DefineEndpoints } from "./define-endpoints";
 
 type Endpoints = DefineEndpoints<{
   "/payments": undefined;
@@ -27,7 +27,10 @@ type Endpoints = DefineEndpoints<{
 it("should return the parsed endpoint url", () => {
   const parseEndpoint = defineEndpoints<Endpoints>();
   assert.equal(parseEndpoint("/payments"), "/payments");
-  assert.equal(parseEndpoint("/payments/{id}", { id: "49fh" }), "/payments/49fh");
+  assert.equal(
+    parseEndpoint("/payments/{id}", { id: "49fh" }),
+    "/payments/49fh"
+  );
   assert.equal(
     parseEndpoint("/payments/{id}/transaction/{tr_id}", {
       id: "ifh-4fd",

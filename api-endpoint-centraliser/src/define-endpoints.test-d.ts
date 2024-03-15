@@ -1,5 +1,5 @@
 import { it, assertType } from "vitest";
-import { defineEndpoints, type DefineEndpoints } from "./endpoint-url";
+import { defineEndpoints, type DefineEndpoints } from "./define-endpoints";
 
 type Endpoints = DefineEndpoints<{
   "/payments": undefined;
@@ -21,7 +21,10 @@ it("should not error when correct options of endpoint are provided", () => {
   parseEndpoint("/payments/{id}", { id: "3" });
   parseEndpoint("/users");
   parseEndpoint("/users/{user_name}", { user_name: "emkis" });
-  parseEndpoint("/payments/{p_id}/transaction/{tr_id}", { p_id: "hjs", tr_id: "92z" });
+  parseEndpoint("/payments/{p_id}/transaction/{tr_id}", {
+    p_id: "hjs",
+    tr_id: "92z",
+  });
 });
 
 it("should error when options of endpoint are invalid, missing or partially provided", () => {

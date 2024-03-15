@@ -1,4 +1,4 @@
-import { defineEndpoints, type DefineEndpoints } from "../src/endpoint-url";
+import { defineEndpoints, type DefineEndpoints } from "../src/define-endpoints";
 
 type PaymentsEndpoints = DefineEndpoints<{
   "/payments": undefined;
@@ -12,7 +12,10 @@ const parsePaymentsEndpoint = defineEndpoints<PaymentsEndpoints>();
 
 const endpointA = parsePaymentsEndpoint("/orders");
 const endpointB = parsePaymentsEndpoint("/orders/{id}", { id: "ord_1" });
-const endpointC = parsePaymentsEndpoint("/payments/{p_id}/transaction/{tr_id}", { p_id: "1", tr_id: "2" });
+const endpointC = parsePaymentsEndpoint(
+  "/payments/{p_id}/transaction/{tr_id}",
+  { p_id: "1", tr_id: "2" }
+);
 
 console.info("Parsed endpoint urls:");
 console.info(endpointA);
