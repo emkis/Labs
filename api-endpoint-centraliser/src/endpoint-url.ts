@@ -1,4 +1,4 @@
-import { urlParser } from "./url-parser";
+import { pathParser } from "./path-parser";
 
 export type EndpointUrl = string;
 export type EndpointValues = Record<string, string> | undefined;
@@ -10,6 +10,6 @@ export function defineEndpoints<T extends EndpointObject>() {
     ...args: T[Url] extends undefined ? [url: Url] : [url: Url, values: T[Url]]
   ): string {
     const [url, values] = args;
-    return urlParser(url as string, values);
+    return pathParser(url as string, values);
   };
 }
