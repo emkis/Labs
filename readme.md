@@ -10,7 +10,7 @@ A type-safe and runtime-safe abstraction to use the native `window.localStorage`
 
 
 ## [API Endpoint centraliser](./api-endpoint-centraliser/)
-A solution for centralising API endpoints in TypeScript predictably, which will allow you to quickly find how an API is being used inside your project.
+A solution for centralising API endpoints in TypeScript, this allows you to quickly find how all APIs you have are being used inside your project in a predictable way.
 
 
 ## [Environment](./environment/)
