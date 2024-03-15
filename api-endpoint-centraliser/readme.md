@@ -14,7 +14,7 @@ More description is coming...
 - [x] Add unit tests for `endpointUrlParser`.
 - [x] Add type tests for `endpointUrlParser`.
 
-- [ ] Think again about the name of the functions.
+- [x] Think again about the name of the functions.
 - [ ] Add comments to the playground files to help understand what to expect of each playground.
 
 ## Nice to haves
