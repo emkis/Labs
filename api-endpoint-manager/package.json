@@ -1,5 +1,5 @@
 {
-  "name": "@labs/type-safe-endpoints",
+  "name": "@labs/api-endpoint-manager",
   "version": "0.0.1",
   "type": "module",
   "author": {
