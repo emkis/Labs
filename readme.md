@@ -9,8 +9,8 @@ A repo to centralise ideas I have for libraries or cool abstractions I think wou
 A type-safe and runtime-safe abstraction to use the native `window.localStorage` and `window.sessionStorage` browser APIs.
 
 
-## [API Endpoint centraliser](./api-endpoint-centraliser/)
-A solution for centralising API endpoints in TypeScript, this allows you to quickly find how all APIs you have are being used inside your project in a predictable way.
+## [API Endpoint Manager](./api-endpoint-manager/)
+A simple solution for managing API endpoints in TypeScript, this allows you to quickly find in a predictable way how all APIs in your project are being used.
 
 
 ## [Environment](./environment/)
