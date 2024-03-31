@@ -34,5 +34,51 @@ These above are just simple examples, but you can probably imagine how many othe
 
 ## Solution
 
-My solution to this problem is to declare in a centralised place all the endpoints a specific API has, and then use
-...
+My solution to this problem is just to create a simple abstraction that will ensure we solve all problems listed above, but without creating much complexity as at the end of the day we only want to have a string with the URL path.
+
+**This is how we would use this solution:**
+
+```ts
+import { defineEndpoints, type DefineEndpoints } from "./api-endpoint-manager";
+
+/**
+ * Here we define all endpoints for the Payments API.
+ * 
+ * This ensures all endpoints are declared in a single place, and we know how
+ * they will be used across the project.
+ */
+type PaymentsEndpoints = DefineEndpoints<{
+  "/payments": undefined;
+  "/payments/{id}": { id: string };
+  "/payments/{p_id}/transaction/{tr_id}": { p_id: string; tr_id: string };
+  "/orders": undefined;
+  "/orders/{id}": { id: string };
+}>;
+
+/**
+ * Here we create the parser for this API, which will be the only way we
+ * build the URLs for each endpoint of this API.
+ */
+const parsePaymentsEndpoint = defineEndpoints<PaymentsEndpoints>();
+
+/**
+ * Here we use the parser to build the URLs for each endpoint.
+ * 
+ * Every time we need to build an URL for an endpoint of the Payments API,
+ * we will use this parser and the endpoint arguments will be type checked 
+ * and consistently built in the exact same way it was declared on the types.
+ */
+const endpointA = parsePaymentsEndpoint("/orders");
+const endpointB = parsePaymentsEndpoint("/orders/{id}", { id: "ord_1" });
+const endpointC = parsePaymentsEndpoint("/payments/{p_id}/transaction/{tr_id}", { p_id: "1", tr_id: "2" });
+
+console.log("Parsed endpoint urls:");
+console.log(endpointA); // Output: /orders
+console.log(endpointB); // Output: /orders/ord_1
+console.log(endpointC); // Output: /payments/1/transaction/2
+
+```
+
+With this solution above, we ensure that all the endpoints available for this Payments API for example are declared at a type level in a single place, which means that the string that represents each endpoint is always the same, this means we can easily search for the endpoint string and find all usages of it.
+
+And, this also means that we can scan our code for the parser of that endpoint and we will also find all places that are actually using the respective API.
