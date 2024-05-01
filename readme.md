@@ -5,16 +5,12 @@ A repo to centralise ideas I have for libraries or cool abstractions I think wou
 
 <br>
 
-## [Safe Web Storage API](./safe-storage/)
-A type-safe and runtime-safe abstraction to use the native `window.localStorage` and `window.sessionStorage` browser APIs.
-
-
 ## [API Endpoint Manager](./api-endpoint-manager/)
 A simple solution for managing API endpoints in TypeScript, this allows you to quickly find in a predictable way how all APIs in your project are being used.
 
 
-## [Environment](./environment/)
-This script throws an error when finds environment variables that were not initialized on the `.env` files but are being used in your project.
+## [Safe Web Storage API](./safe-storage/)
+A type-safe and runtime-safe abstraction to use the native `window.localStorage` and `window.sessionStorage` browser APIs.
 
 
 ## [Clean `package.json`](./clean-package-json/)
